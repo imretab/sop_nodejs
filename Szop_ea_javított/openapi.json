@@ -1,0 +1,545 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bolt Szimulátor",
+    "description": "Egy Bolt Szimulátor, ahol a felhasználó a program funkcióit csak bejelentkezés után tudja használni.\nFunkciók közt van a regisztráció, a bejelentkezés, a raktár (listázása, vásárlás, módosítása (csak admin), törlése (csak admin)).\nNémely funkció admin jogosultsághoz kötött",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "raktar",
+      "description": "Raktárból való dolgozás"
+    },
+    {
+      "name": "vasarlas",
+      "description": "Vásárlás a raktárból"
+    },
+    {
+      "name": "user",
+      "description": "User kezelése"
+    }
+  ],
+  "paths": {
+    "/raktar": {
+      "put": {
+        "tags": [
+          "raktar"
+        ],
+        "summary": "Egy árucikk módosítása",
+        "description": "Egy árucikk módosítása",
+        "operationId": "updateUtalas",
+        "requestBody": {
+          "description": "Egy árucikk módosítása",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Raktar"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "Sikeres update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sikertelen update"
+          },
+          "300": {
+            "description": "Nem vagy admin"
+          },
+          "400": {
+            "description": "Nem vagy bejelentkezve"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "raktar"
+        ],
+        "summary": "Egy új termék hozzáadása",
+        "description": "Egy új termék hozzáadása",
+        "operationId": "aruFeltolt",
+        "requestBody": {
+          "description": "Egy új termék hozzáadása",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Raktar"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Raktar"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Raktar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "raktar"
+        ],
+        "summary": "Megkapja a raktár összes termékét",
+        "description": "Megkapja a raktár összes termékét",
+        "operationId": "getRaktar",
+        "responses": {
+          "100": {
+            "description": "Sikeres lekérdezés",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sikertelen lekérdezés"
+          }
+        }
+      }
+    },
+    "/raktar/{id}": {
+      "delete": {
+        "tags": [
+          "raktar"
+        ],
+        "summary": "Törli a terméket, amint 0 a mennyisége",
+        "description": "Törli a terméket, amint 0 a mennyisége",
+        "operationId": "deleteRaktar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "FelhasználóNév",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "100": {
+            "description": "Sikeres törlés",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raktar"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sikertelen törlés"
+          },
+          "300": {
+            "description": "Nem vagy admin"
+          },
+          "400": {
+            "description": "Nem vagy bejelentkezve"
+          }
+        }
+      }
+    },
+    "/vasarlas": {
+      "put": {
+        "tags": [
+          "vasarlas"
+        ],
+        "summary": "Vásárlás után módosítja a terméket",
+        "description": "Vásárlás után módosítja a terméket a mennyiség száma szerint",
+        "operationId": "updateVasarlas",
+        "requestBody": {
+          "description": "Vásárlás",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vasarlas"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Vasarlas"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Vasarlas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "100": {
+            "description": "Sikeres vásárlás",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vasarlas"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vasarlas"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sikertelen vásárlás"
+          },
+          "400": {
+            "description": "Nem vagy bejelntkezve"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Felhasználó készítése",
+        "operationId": "register",
+        "requestBody": {
+          "description": "Felhasználó készítése",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login/{username}&{password}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Bejelentkezés",
+        "description": "bejentkezés",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "FelhasználóNév",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "description": "Jelszó",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Vasarlas": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "imre"
+          },
+          "password": {
+            "type": "string",
+            "example": "imre"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "mennyiseg": {
+            "type": "integer",
+            "format": "int64",
+            "example": 50
+          }
+        },
+        "xml": {
+          "name": "vasarlas"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "username": {
+            "type": "string",
+            "example": "imre"
+          },
+          "teljesNev": {
+            "type": "string",
+            "example": "Imre"
+          },
+          "email": {
+            "type": "string",
+            "example": "imre@imre"
+          },
+          "password": {
+            "type": "string",
+            "example": "imre"
+          },
+          "role": {
+            "type": "string",
+            "example": "user"
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Raktar": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "imre"
+          },
+          "password": {
+            "type": "string",
+            "example": "imre"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "aruNev": {
+            "type": "string",
+            "example": "Milka"
+          },
+          "ar": {
+            "type": "integer",
+            "format": "int64",
+            "example": 300
+          },
+          "mennyiseg": {
+            "type": "integer",
+            "format": "int64",
+            "example": 4
+          }
+        },
+        "xml": {
+          "name": "raktar"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "##default"
+        }
+      }
+    },
+    "requestBodies": {
+      "Raktar": {
+        "description": "Hozzá adás",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Raktar"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Raktar"
+            }
+          }
+        }
+      },
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+            "scopes": {
+              "write:pets": "modify pets in your account",
+              "read:pets": "read your pets"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}

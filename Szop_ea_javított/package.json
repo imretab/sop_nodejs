@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "js-sha512": "^0.8.0",
+    "mysql": "^2.18.1",
+    "npm-run-all": "^4.1.5",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "scripts": {
+    "serve": "npm-run-all command1 command2",
+    "command1": "echo \"command1 launched\"",
+    "command2": "echo \"command2 launched\""
+  }
+}

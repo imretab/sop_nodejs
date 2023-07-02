@@ -6,19 +6,19 @@ let connection = mysql.createConnection({
     password : '', 
     database : 'bolt'
 });
-exports.areInputsfilled = function isAllFilled(nev,uname,pwd,email,role){
-    if(!nev || !uname || !pwd || !email || !role){
+exports.areInputsfilled = async function areAllFilled(fullName,uname,pwd,email,role){
+    if(!fullName || !uname || !pwd || !email || !role){
       console.log("Error, one of the inputs missing");
       return false;
     }
-    if(nev.trim().length == 0 ||uname.trim().length == 0|| pwd.trim().length == 0|| email.trim().length == 0|| role.trim().length == 0){
+    if(fullName.trim().length == 0 ||uname.trim().length == 0|| pwd.trim().length == 0|| email.trim().length == 0|| role.trim().length == 0){
       return false;
     }
     return true;
   }
-exports.register = function register(nev,uname,pwd,email,role){
+exports.register = function register(fullName,uname,pwd,email,role){
       return new Promise((success,fail) => {
-      connection.query("INSERT INTO user (TeljesNev,username,passwd,email,role) VALUES (?,?,?,?,?)",[nev,uname,sha512(pwd),email,role],function(error,results,fields){
+      connection.query("INSERT INTO user (TeljesNev,username,passwd,email,role) VALUES (?,?,?,?,?)",[fullName,uname,sha512(pwd),email,role],function(error,results,fields){
       if(error){ 
         return fail(error);
       }

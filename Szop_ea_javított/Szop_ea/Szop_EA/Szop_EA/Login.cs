@@ -49,14 +49,14 @@ namespace Szop_EA
                 request.RequestFormat = DataFormat.Json;
                 if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passwd))
                 {
-                    MessageBox.Show("A név és a jelszó nem lehet üres", "SHIBA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Username and password field shouldn't be empty", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
                     RestResponse response = Client.Execute(request);
                     if (response.StatusCode == 0)
                     {
-                        MessageBox.Show("A szerverhez való csatlakozás sikertelen!");
+                        MessageBox.Show("Connecting to server failed!");
                         return;
                     }
                     else if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -69,15 +69,15 @@ namespace Szop_EA
                     Response res = Client.Deserialize<Response>(response).Data;
                     if (res.Status == 1)
                     {
-                        MessageBox.Show(res.Msg, "SIKER", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(res.Msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Hide();
-                        Bolt b = new Bolt();
+                        Shop b = new Shop();
                         b.ShowDialog();
                         this.Close();
                     }
                     else
                     {
-                        MessageBox.Show(res.Msg, "SHIBA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(res.Msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

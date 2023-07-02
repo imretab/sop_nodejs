@@ -30,7 +30,7 @@
         {
             this.label6 = new System.Windows.Forms.Label();
             this.tb_email = new System.Windows.Forms.TextBox();
-            this.btn_vissza = new System.Windows.Forms.Button();
+            this.btn_back = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tb_fullName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,16 +60,16 @@
             this.tb_email.Size = new System.Drawing.Size(324, 20);
             this.tb_email.TabIndex = 25;
             // 
-            // btn_vissza
+            // btn_back
             // 
-            this.btn_vissza.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btn_vissza.Location = new System.Drawing.Point(11, 424);
-            this.btn_vissza.Name = "btn_vissza";
-            this.btn_vissza.Size = new System.Drawing.Size(324, 54);
-            this.btn_vissza.TabIndex = 28;
-            this.btn_vissza.Text = "Vissza";
-            this.btn_vissza.UseVisualStyleBackColor = true;
-            this.btn_vissza.Click += new System.EventHandler(this.Btn_vissza_Click);
+            this.btn_back.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btn_back.Location = new System.Drawing.Point(11, 424);
+            this.btn_back.Name = "btn_back";
+            this.btn_back.Size = new System.Drawing.Size(324, 54);
+            this.btn_back.TabIndex = 28;
+            this.btn_back.Text = "Back";
+            this.btn_back.UseVisualStyleBackColor = true;
+            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
             // 
             // label4
             // 
@@ -78,9 +78,9 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(12, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 26);
+            this.label4.Size = new System.Drawing.Size(101, 26);
             this.label4.TabIndex = 32;
-            this.label4.Text = "Teljes név:";
+            this.label4.Text = "Full name:";
             // 
             // tb_fullName
             // 
@@ -96,9 +96,9 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(12, 189);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 26);
+            this.label3.Size = new System.Drawing.Size(175, 26);
             this.label3.TabIndex = 31;
-            this.label3.Text = "Jelszó ismét:";
+            this.label3.Text = "Confirm password:";
             // 
             // tb_pwd_again
             // 
@@ -116,7 +116,7 @@
             this.btn_Register.Name = "btn_Register";
             this.btn_Register.Size = new System.Drawing.Size(324, 62);
             this.btn_Register.TabIndex = 27;
-            this.btn_Register.Text = "Regisztráció";
+            this.btn_Register.Text = "Register";
             this.btn_Register.UseVisualStyleBackColor = true;
             this.btn_Register.Click += new System.EventHandler(this.Btn_Register_Click);
             // 
@@ -127,9 +127,9 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(12, 129);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 26);
+            this.label2.Size = new System.Drawing.Size(100, 26);
             this.label2.TabIndex = 30;
-            this.label2.Text = "Jelszó:";
+            this.label2.Text = "Password:";
             // 
             // tb_pwd
             // 
@@ -147,9 +147,9 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(12, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 26);
+            this.label1.Size = new System.Drawing.Size(105, 26);
             this.label1.TabIndex = 29;
-            this.label1.Text = "Felhasználónév:";
+            this.label1.Text = "Username:";
             // 
             // tb_username
             // 
@@ -166,7 +166,7 @@
             this.ClientSize = new System.Drawing.Size(350, 492);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tb_email);
-            this.Controls.Add(this.btn_vissza);
+            this.Controls.Add(this.btn_back);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tb_fullName);
             this.Controls.Add(this.label3);
@@ -187,7 +187,7 @@
 
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tb_email;
-        private System.Windows.Forms.Button btn_vissza;
+        private System.Windows.Forms.Button btn_back;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tb_fullName;
         private System.Windows.Forms.Label label3;

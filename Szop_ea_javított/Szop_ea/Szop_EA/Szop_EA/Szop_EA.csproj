@@ -96,25 +96,25 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AruAdatok.cs" />
-    <Compile Include="AruFeltolt.cs">
+    <Compile Include="GoodsData.cs" />
+    <Compile Include="GoodsInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AruFeltolt.Designer.cs">
-      <DependentUpon>AruFeltolt.cs</DependentUpon>
+    <Compile Include="GoodsInsert.Designer.cs">
+      <DependentUpon>GoodsInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="AruMod.cs">
+    <Compile Include="GoodsModify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AruMod.Designer.cs">
-      <DependentUpon>AruMod.cs</DependentUpon>
+    <Compile Include="GoodsModify.Designer.cs">
+      <DependentUpon>GoodsModify.cs</DependentUpon>
     </Compile>
     <Compile Include="UtalasAdatok.cs" />
-    <Compile Include="Bolt.cs">
+    <Compile Include="Shop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Bolt.Designer.cs">
-      <DependentUpon>Bolt.cs</DependentUpon>
+    <Compile Include="Shop.Designer.cs">
+      <DependentUpon>Shop.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -131,14 +131,14 @@
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
     <Compile Include="Response.cs" />
-    <EmbeddedResource Include="AruFeltolt.resx">
-      <DependentUpon>AruFeltolt.cs</DependentUpon>
+    <EmbeddedResource Include="GoodsInsert.resx">
+      <DependentUpon>GoodsInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AruMod.resx">
-      <DependentUpon>AruMod.cs</DependentUpon>
+    <EmbeddedResource Include="GoodsModify.resx">
+      <DependentUpon>GoodsModify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Bolt.resx">
-      <DependentUpon>Bolt.cs</DependentUpon>
+    <EmbeddedResource Include="Shop.resx">
+      <DependentUpon>Shop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

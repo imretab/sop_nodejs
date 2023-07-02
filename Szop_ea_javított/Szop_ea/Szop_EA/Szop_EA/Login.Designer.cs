@@ -81,7 +81,7 @@
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(249, 46);
             this.btn_login.TabIndex = 4;
-            this.btn_login.Text = "Bejelentkezés";
+            this.btn_login.Text = "Login";
             this.btn_login.UseVisualStyleBackColor = true;
             this.btn_login.Click += new System.EventHandler(this.Btn_login_Click);
             // 
@@ -92,7 +92,7 @@
             this.btn_Register.Name = "btn_Register";
             this.btn_Register.Size = new System.Drawing.Size(249, 46);
             this.btn_Register.TabIndex = 5;
-            this.btn_Register.Text = "Regisztráció";
+            this.btn_Register.Text = "Registration";
             this.btn_Register.UseVisualStyleBackColor = true;
             this.btn_Register.Click += new System.EventHandler(this.Btn_Register_Click);
             // 

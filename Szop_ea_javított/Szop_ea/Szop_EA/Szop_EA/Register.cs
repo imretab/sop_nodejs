@@ -17,27 +17,27 @@ namespace Szop_EA
         {
             InitializeComponent();
         }
-        private bool mindUresE()
+        private bool areAllFilled()
         {
             return tb_fullName.Text.Length <= 0 ||
                 tb_username.Text.Length <= 0 ||
                 tb_pwd.Text.Length <= 0 ||
                 tb_pwd_again.Text.Length <= 0 ||
-                tb_email.Text.Length < 0;
+                tb_email.Text.Length <= 0;
         }
-        private bool jelszavakEgyeznekE()
+        private bool doPasswordsMatch(string pwd, string pwdAgain)
         {
-            return tb_pwd.Text == tb_pwd_again.Text;
+            return pwd == pwdAgain;
         }
         public void RegisterU(string fullName,string uname, string pwd, string pwdAgain, string Email)
         {
-            if (mindUresE())
+            if (areAllFilled())
             {
-                MessageBox.Show("Minden mező kitöltése kötelező!", "HIBA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You must fill all the fields!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (!jelszavakEgyeznekE())
+            else if (!doPasswordsMatch(pwd,pwdAgain))
             {
-                MessageBox.Show("A jelszavaknak egyeznie kell!", "HIBA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The two password fields must match!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -62,23 +62,23 @@ namespace Szop_EA
                 }
                 Response res = Login.Client.Deserialize<Response>(response).Data;
                 if (res.Status == 1)
-                    MessageBox.Show("Sikeres regisztráció", "SIKER", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(res.Msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Sikertelen regisztráció");
+                    MessageBox.Show(res.Msg,"Fail");
             }
-        }
-
-        private void Btn_vissza_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            Login l = new Login();
-            l.ShowDialog();
-            this.Close();
         }
 
         private void Btn_Register_Click(object sender, EventArgs e)
         {
             RegisterU(tb_fullName.Text, tb_username.Text, tb_pwd.Text, tb_pwd_again.Text, tb_email.Text);
+        }
+
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Login l = new Login();
+            l.ShowDialog();
+            this.Close();
         }
     }
 }

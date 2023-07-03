@@ -4,9 +4,8 @@ let connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root', 
     password : '', 
-    database : 'bolt'
+    database : 'shop'
 });
-
 exports.login =  function login(uname,passwd){
     return new Promise((success,fail) => {
       if(uname == null || passwd == null){
@@ -31,3 +30,27 @@ exports.login =  function login(uname,passwd){
   });
 });
 };
+exports.getId = function getID(uname,passwd){
+  return new Promise((success,fail) => {
+    if(uname == null || passwd == null){
+      return success(false);
+    }
+  connection.query("SELECT id FROM user WHERE username = ? and passwd = ?",[uname,sha512(passwd)],function(error,results,fields){
+    try{
+      if(error){ 
+        throw error;
+        return fail(error);
+      }
+      if(results.length != 0){
+        return success(results[0].id);
+      }
+      else{
+        return success(null);
+      }
+}
+catch{
+  console.log(error);
+}
+});
+});
+}

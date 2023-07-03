@@ -5,13 +5,13 @@ var mysql = require('mysql');
 var loginCheck = require('./my_modules/login');
 var registerCheck = require('./my_modules/register');
 var inventory = require('./my_modules/inventory');
-var vasarlas = require('./my_modules/purchase');
+var purchase = require('./my_modules/purchase');
 //var jsonCodes = require('./my_modules/jsonCodes');
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root', 
     password : '', 
-    database : 'bolt'
+    database : 'shop'
 });
 connection.connect(function(err){
   try{
@@ -60,11 +60,13 @@ function isAdmin(uname){
     return success(false);
   }));
 }
+let userId = 0;
 app.get('/login/:username&:password',async function (req,res){
   var name = req.params.username;
   var passwd = req.params.password;
   let tryLog = await loginCheck.login(name,passwd);
   if(tryLog){
+    userId = await loginCheck.getId(name,passwd);
     res.json(loginSuccess);
   }
   else{
@@ -134,8 +136,8 @@ app.delete('/inventory/:id',async function(req,res){
     res.json(notAdmin);
     return;
   }
-  let isTorles = await inventory.deleteGoods(req.params.id);
-  if(!isTorles){
+  let isDelete = await inventory.deleteGoods(req.params.id);
+  if(!isDelete){
     res.json(goodsDeleteFail);
     return;
   }
@@ -143,7 +145,7 @@ app.delete('/inventory/:id',async function(req,res){
 });
 app.put('/purchase',async function(req,res){
   let values = req.body;
-  if(values.mennyiseg == null || values.id == null){
+  if(values.quantity == null || values.id == null){
     res.json(incomplete);
     return;
   }
@@ -152,13 +154,18 @@ app.put('/purchase',async function(req,res){
     res.json(notLoggedIn);
     return;
   }
-  let isVasar = await vasarlas.purchase(values.id,values.mennyiseg);
-  if(!isVasar){
+  let isPurchase = await purchase.purchase(values.id,values.quantity);
+  if(!isPurchase){
     res.json(purchaseFail);
     return;
   }
-  let isTorol = await vasarlas.deleteWhereZero();
+  let isTorol = await purchase.deleteWhereZero();
   if(!isTorol){
+    return;
+  }
+  let isInsertToInventory = await purchase.insertToHistroy(userId,values.id,values.quantity);
+  if(!isInsertToInventory){
+    res.json(purchaseFail);
     return;
   }
   res.json(purchaseSuccess);

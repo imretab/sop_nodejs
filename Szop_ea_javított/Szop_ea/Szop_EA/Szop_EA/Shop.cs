@@ -31,8 +31,6 @@ namespace Szop_EA
             dgv_inventory.Columns[0].Visible = false;
             dgv_purchase.Columns[0].Visible = false;
         }
-
-
         private void PossibleErrors(RestRequest request)
         {
             RestResponse response = Login.Client.Execute(request);
@@ -50,7 +48,16 @@ namespace Szop_EA
         private void GetResponse(RestRequest request)
         {
             RestResponse response = Login.Client.Execute(request);
-            PossibleErrors(request);
+            if (response.StatusCode == 0)
+            {
+                MessageBox.Show("Connecting to server failed!");
+                return;
+            }
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                MessageBox.Show($"ERROR: {response.ErrorMessage}");
+                return;
+            }
             Response res = Login.Client.Deserialize<Response>(response).Data;
             if (res.Status == 1)
             {
@@ -82,19 +89,19 @@ namespace Szop_EA
                 MessageBox.Show(ex.Message);
             }
         }
-        private void Vasarlas()
+        private void Purchase()
         {
             try
             {
-                RestRequest request = new RestRequest("vasarlas", Method.Put);
+                RestRequest request = new RestRequest("purchase", Method.Put);
                 GoodsData goods = dgv_purchase.CurrentRow.DataBoundItem as GoodsData;
                 if (goods == null) { throw new Exception(); }
-                if (num_mennyit.Value <= 0)
+                if (num_amount.Value <= 0)
                 {
-                    MessageBox.Show("You can't buy items if the quantity value is less or equals than 0", "ERROR");
+                    MessageBox.Show("You can't buy items if the value of quantity is less or equals to 0", "ERROR");
                     return;
                 }
-                if (num_mennyit.Value > goods.Mennyiseg)
+                if (num_amount.Value > goods.Mennyiseg)
                 {
                     MessageBox.Show("You can't buy more than what's in stock", "ERROR");
                     return;
@@ -104,7 +111,7 @@ namespace Szop_EA
                     username = Login.uName,
                     password = Login.password,
                     id = goods.ID,
-                    mennyiseg = num_mennyit.Value
+                    quantity = num_amount.Value
                 });
                 GetResponse(request);
             }
@@ -125,7 +132,7 @@ namespace Szop_EA
         }
         private void Btn_vasarlas_Click(object sender, EventArgs e)
         {
-            Vasarlas();
+            Purchase();
             UpdatePurchaseList();
         }
 
@@ -196,7 +203,7 @@ namespace Szop_EA
 
         private void btn_purchase_Click(object sender, EventArgs e)
         {
-            Vasarlas();
+            Purchase();
             UpdatePurchaseList();
         }
     }

@@ -33,7 +33,7 @@
             this.purchase = new System.Windows.Forms.TabPage();
             this.php = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.num_mennyit = new System.Windows.Forms.NumericUpDown();
+            this.num_amount = new System.Windows.Forms.NumericUpDown();
             this.btn_purchase = new System.Windows.Forms.Button();
             this.dgv_purchase = new System.Windows.Forms.DataGridView();
             this.insert = new System.Windows.Forms.TabPage();
@@ -44,7 +44,7 @@
             this.btn_logout = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.purchase.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_mennyit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_amount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_purchase)).BeginInit();
             this.insert.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
@@ -76,7 +76,7 @@
             this.purchase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.purchase.Controls.Add(this.php);
             this.purchase.Controls.Add(this.label1);
-            this.purchase.Controls.Add(this.num_mennyit);
+            this.purchase.Controls.Add(this.num_amount);
             this.purchase.Controls.Add(this.btn_purchase);
             this.purchase.Controls.Add(this.dgv_purchase);
             this.purchase.Location = new System.Drawing.Point(4, 22);
@@ -110,18 +110,18 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "How much do you want to buy?";
             // 
-            // num_mennyit
+            // num_amount
             // 
-            this.num_mennyit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.num_mennyit.Location = new System.Drawing.Point(569, 54);
-            this.num_mennyit.Maximum = new decimal(new int[] {
+            this.num_amount.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.num_amount.Location = new System.Drawing.Point(569, 54);
+            this.num_amount.Maximum = new decimal(new int[] {
             9999999,
             0,
             0,
             0});
-            this.num_mennyit.Name = "num_mennyit";
-            this.num_mennyit.Size = new System.Drawing.Size(323, 34);
-            this.num_mennyit.TabIndex = 2;
+            this.num_amount.Name = "num_amount";
+            this.num_amount.Size = new System.Drawing.Size(323, 34);
+            this.num_amount.TabIndex = 2;
             // 
             // btn_purchase
             // 
@@ -232,7 +232,7 @@
             this.tabControl1.ResumeLayout(false);
             this.purchase.ResumeLayout(false);
             this.purchase.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_mennyit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_amount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_purchase)).EndInit();
             this.insert.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
@@ -255,7 +255,7 @@
         private System.Windows.Forms.Button btn_purchase;
         private System.Windows.Forms.Button btn_logout;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown num_mennyit;
+        private System.Windows.Forms.NumericUpDown num_amount;
         private System.Windows.Forms.CheckBox php;
     }
 }

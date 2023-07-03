@@ -4,7 +4,7 @@ let connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root', 
     password : '', 
-    database : 'bolt'
+    database : 'shop'
 });
 exports.areInputsfilled = async function areAllFilled(fullName,uname,pwd,email,role){
     if(!fullName || !uname || !pwd || !email || !role){

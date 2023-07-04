@@ -18,7 +18,9 @@ namespace Szop_EA
         {
             InitializeComponent();
             UpdatePurchaseList();
+            UpdatePurchaseHistoryList();
             logged.Text = $"Greetings {Login.uName}";
+            loggedUser.Text = $"{Login.uName}'s purchase history";
         }
         private void UpdatePurchaseList()
         {
@@ -30,6 +32,15 @@ namespace Szop_EA
             dgv_inventory.DataSource = goods;
             dgv_inventory.Columns[0].Visible = false;
             dgv_purchase.Columns[0].Visible = false;
+        }
+        private void UpdatePurchaseHistoryList()
+        {
+            RestRequest request = new RestRequest("purchase", Method.Get);
+            RestResponse response = Login.Client.Execute(request);
+            PossibleErrors(request);
+            List<PurchaseHistory> purchaseHistories = JsonSerializer.Deserialize<List<PurchaseHistory>>(response.Content);
+            dgv_PurchaseHistory.DataSource = purchaseHistories;
+            dgv_PurchaseHistory.Columns[0].Visible = false;
         }
         private void PossibleErrors(RestRequest request)
         {
@@ -101,7 +112,7 @@ namespace Szop_EA
                     MessageBox.Show("You can't buy items if the value of quantity is less or equals to 0", "ERROR");
                     return;
                 }
-                if (num_amount.Value > goods.Mennyiseg)
+                if (num_amount.Value > goods.Quantity)
                 {
                     MessageBox.Show("You can't buy more than what's in stock", "ERROR");
                     return;
@@ -205,6 +216,13 @@ namespace Szop_EA
         {
             Purchase();
             UpdatePurchaseList();
+            UpdatePurchaseHistoryList();
+        }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            UpdatePurchaseList();
+            UpdatePurchaseHistoryList();
         }
     }
 }

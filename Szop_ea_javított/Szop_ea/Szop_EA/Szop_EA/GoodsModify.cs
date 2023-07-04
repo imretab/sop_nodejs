@@ -13,25 +13,25 @@ namespace Szop_EA
 {
     public partial class GoodsModify : Form
     {
-        private GoodsData adatok;
-        public GoodsModify(GoodsData adatok = null)
+        private GoodsData data;
+        public GoodsModify(GoodsData data = null)
         {
             InitializeComponent();
-            this.adatok = adatok;
-            tb_termek.Text = adatok.Termek;
-            num_ar.Value = adatok.Ar;
-            num_mennyiseg.Value = adatok.Mennyiseg;
+            this.data = data;
+            tb_product.Text = data.ProductName;
+            num_price.Value = data.Price;
+            num_quantity.Value = data.Quantity;
         }
         private bool areAllEmpty()
         {
-            return tb_termek.Text.Length <= 0 ||
-                num_ar.Value.ToString().Length <= 0 ||
-                num_mennyiseg.Value.ToString().Length <= 0;
+            return tb_product.Text.Length <= 0 ||
+                num_price.Value.ToString().Length <= 0 ||
+                num_quantity.Value.ToString().Length <= 0;
         }
         private bool lessThanZero()
         {
-            return num_ar.Value <= 0 ||
-                num_mennyiseg.Value <= 0;
+            return num_price.Value <= 0 ||
+                num_quantity.Value <= 0;
         }
         public void FeltoltAru(string goodsName, int price, int quantity)
         {
@@ -63,10 +63,10 @@ namespace Szop_EA
                         {
                             username = Login.uName,
                             password = Login.password,
-                            id = adatok.ID,
-                            aruNev = goodsName,
-                            ar = price,
-                            mennyiseg = quantity
+                            id = data.ID,
+                            productName = goodsName,
+                            price = price,
+                            quantity = quantity
                         }
                     );
                     RestResponse response = Login.Client.Execute(request);
@@ -96,7 +96,7 @@ namespace Szop_EA
 
         private void Btn_modosit_Click(object sender, EventArgs e)
         {
-            FeltoltAru(tb_termek.Text, (int)num_ar.Value, (int)num_mennyiseg.Value);
+            FeltoltAru(tb_product.Text, (int)num_price.Value, (int)num_quantity.Value);
         }
 
         private void Btn_back_Click(object sender, EventArgs e)

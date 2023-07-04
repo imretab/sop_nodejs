@@ -12,10 +12,10 @@ namespace Szop_EA
         [JsonPropertyName("id")]
         public int ID { get; set; }
         [JsonPropertyName("goods")]
-        public string Termek { get; set; }
+        public string ProductName { get; set; }
         [JsonPropertyName("price")]
-        public int Ar { get; set; }
+        public int Price { get; set; }
         [JsonPropertyName("quantity")]
-        public int Mennyiseg { get; set; }
+        public int Quantity{ get; set; }
     }
 }

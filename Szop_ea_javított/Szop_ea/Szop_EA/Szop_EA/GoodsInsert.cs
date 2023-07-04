@@ -58,9 +58,9 @@ namespace Szop_EA
                         {
                             username = Login.uName,
                             password = Login.password,
-                            aruNev = goodsName,
-                            ar = price,
-                            mennyiseg = quantity
+                            productName = goodsName,
+                            price = price,
+                            quantity = quantity
                         }
                     );
                     RestResponse response = Login.Client.Execute(request);

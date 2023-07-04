@@ -31,13 +31,13 @@
             this.btn_back = new System.Windows.Forms.Button();
             this.btn_modosit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.num_mennyiseg = new System.Windows.Forms.NumericUpDown();
-            this.tb_termek = new System.Windows.Forms.TextBox();
+            this.num_quantity = new System.Windows.Forms.NumericUpDown();
+            this.tb_product = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.num_ar = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.num_mennyiseg)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_ar)).BeginInit();
+            this.num_price = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.num_quantity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_price)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_back
@@ -73,24 +73,24 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "Quantity";
             // 
-            // num_mennyiseg
+            // num_quantity
             // 
-            this.num_mennyiseg.Location = new System.Drawing.Point(12, 169);
-            this.num_mennyiseg.Maximum = new decimal(new int[] {
+            this.num_quantity.Location = new System.Drawing.Point(12, 169);
+            this.num_quantity.Maximum = new decimal(new int[] {
             -1530494976,
             232830,
             0,
             0});
-            this.num_mennyiseg.Name = "num_mennyiseg";
-            this.num_mennyiseg.Size = new System.Drawing.Size(277, 20);
-            this.num_mennyiseg.TabIndex = 23;
+            this.num_quantity.Name = "num_quantity";
+            this.num_quantity.Size = new System.Drawing.Size(277, 20);
+            this.num_quantity.TabIndex = 23;
             // 
-            // tb_termek
+            // tb_product
             // 
-            this.tb_termek.Location = new System.Drawing.Point(12, 36);
-            this.tb_termek.Name = "tb_termek";
-            this.tb_termek.Size = new System.Drawing.Size(277, 20);
-            this.tb_termek.TabIndex = 22;
+            this.tb_product.Location = new System.Drawing.Point(12, 36);
+            this.tb_product.Name = "tb_product";
+            this.tb_product.Size = new System.Drawing.Size(277, 20);
+            this.tb_product.TabIndex = 22;
             // 
             // label5
             // 
@@ -114,17 +114,17 @@
             this.label3.TabIndex = 20;
             this.label3.Text = "Price";
             // 
-            // num_ar
+            // num_price
             // 
-            this.num_ar.Location = new System.Drawing.Point(12, 98);
-            this.num_ar.Maximum = new decimal(new int[] {
+            this.num_price.Location = new System.Drawing.Point(12, 98);
+            this.num_price.Maximum = new decimal(new int[] {
             -1530494976,
             232830,
             0,
             0});
-            this.num_ar.Name = "num_ar";
-            this.num_ar.Size = new System.Drawing.Size(277, 20);
-            this.num_ar.TabIndex = 19;
+            this.num_price.Name = "num_price";
+            this.num_price.Size = new System.Drawing.Size(277, 20);
+            this.num_price.TabIndex = 19;
             // 
             // GoodsModify
             // 
@@ -135,15 +135,15 @@
             this.Controls.Add(this.btn_back);
             this.Controls.Add(this.btn_modosit);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.num_mennyiseg);
-            this.Controls.Add(this.tb_termek);
+            this.Controls.Add(this.num_quantity);
+            this.Controls.Add(this.tb_product);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.num_ar);
+            this.Controls.Add(this.num_price);
             this.Name = "GoodsModify";
             this.Text = "AruMod";
-            ((System.ComponentModel.ISupportInitialize)(this.num_mennyiseg)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_ar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_quantity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_price)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,10 +154,10 @@
         private System.Windows.Forms.Button btn_back;
         private System.Windows.Forms.Button btn_modosit;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown num_mennyiseg;
-        private System.Windows.Forms.TextBox tb_termek;
+        private System.Windows.Forms.NumericUpDown num_quantity;
+        private System.Windows.Forms.TextBox tb_product;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown num_ar;
+        private System.Windows.Forms.NumericUpDown num_price;
     }
 }

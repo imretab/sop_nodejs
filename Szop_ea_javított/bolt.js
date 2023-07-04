@@ -38,7 +38,7 @@ const registerFail = {'status':0,'msg':"Registered unsuccessfully"}
 const notLoggedIn = {"status":3,"msg":"You aren't logged in!"}
 const goodsUpdateFail = {"status":0,"msg":"Updating the selected product has failed"}
 const goodsupdateSuccess = {"status":1,"msg":"Updating the selected product has succeeded"}
-const goodsDeleteFail ={"status":0,"msg":"Deleting the selected product failed"}
+const goodsDeleteFail ={"status":0,"msg":"Deleting the selected product has failed"}
 const goodsDeleteSuccess ={"status":1,"msg":"Deleting the selected product has succeeded"}
 const purchaseFail = {"status":0,"msg":"Purchasing the selected item has failed"}
 const purchaseSuccess = {"status":1,"msg":"Purchasing the selected item has succeeded"}
@@ -60,7 +60,7 @@ function isAdmin(uname){
     return success(false);
   }));
 }
-let userId = 0;
+let userId = null;
 app.get('/login/:username&:password',async function (req,res){
   var name = req.params.username;
   var passwd = req.params.password;
@@ -102,7 +102,7 @@ app.post('/inventory',async function(req,res){
     res.json(notAdmin);
     return;
   }
-  let isInsertToInventory = await inventory.insertGoods(values.aruNev,values.ar,values.mennyiseg);
+  let isInsertToInventory = await inventory.insertGoods(values.productName,values.price,values.quantity);
   console.log(isInsertToInventory);
   if(!isInsertToInventory){
     res.json(goodsInsertFail);
@@ -113,7 +113,7 @@ app.post('/inventory',async function(req,res){
 );
 app.put('/inventory',async function(req,res){
   let values = req.body;
-  if(values.id == null||values.aruNev == null||values.ar == null||values.mennyiseg == null){
+  if(values.id == null||values.productName == null||values.price == null||values.quantity == null){
     res.json(incomplete);
     return;
   }
@@ -122,7 +122,7 @@ app.put('/inventory',async function(req,res){
     res.json(notAdmin);
     return;
   }
-  let isUpdate = await inventory.updateGoods(values.id,values.aruNev,values.ar,values.mennyiseg);
+  let isUpdate = await inventory.updateGoods(values.id,values.prodcutName,values.price,values.quantity);
   if(!isUpdate) {
     res.json(goodsUpdateFail);
     return;
@@ -143,6 +143,12 @@ app.delete('/inventory/:id',async function(req,res){
   }
   res.json(goodsDeleteSuccess);
 });
+app.get('/purchase',async function(req,res){
+  connection.query("SELECT purchasehistory.id, u.fullName as 'Buyer', i.goods as 'ProductName', purchasehistory.quantity FROM purchasehistory INNER JOIN user u ON purchasehistory.buyerID = u.id INNER JOIN inventory i ON purchasehistory.productID = i.id WHERE buyerID = ?",[userId],function(error,results,fields){
+    if(error) throw error;
+    res.json(results);
+  })
+})
 app.put('/purchase',async function(req,res){
   let values = req.body;
   if(values.quantity == null || values.id == null){

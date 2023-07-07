@@ -63,9 +63,9 @@
             // btn_back
             // 
             this.btn_back.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btn_back.Location = new System.Drawing.Point(11, 424);
+            this.btn_back.Location = new System.Drawing.Point(12, 405);
             this.btn_back.Name = "btn_back";
-            this.btn_back.Size = new System.Drawing.Size(324, 54);
+            this.btn_back.Size = new System.Drawing.Size(324, 62);
             this.btn_back.TabIndex = 28;
             this.btn_back.Text = "Back";
             this.btn_back.UseVisualStyleBackColor = true;
@@ -112,7 +112,7 @@
             // btn_Register
             // 
             this.btn_Register.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btn_Register.Location = new System.Drawing.Point(11, 356);
+            this.btn_Register.Location = new System.Drawing.Point(12, 326);
             this.btn_Register.Name = "btn_Register";
             this.btn_Register.Size = new System.Drawing.Size(324, 62);
             this.btn_Register.TabIndex = 27;
@@ -163,7 +163,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(350, 492);
+            this.ClientSize = new System.Drawing.Size(348, 483);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tb_email);
             this.Controls.Add(this.btn_back);

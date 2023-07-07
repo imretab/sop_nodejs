@@ -35,9 +35,14 @@ namespace Szop_EA
         }
         private void UpdatePurchaseHistoryList()
         {
-            RestRequest request = new RestRequest("purchase", Method.Get);
-            RestResponse response = Login.Client.Execute(request);
+            RestRequest request = new RestRequest("purchase", Method.Post);
+            request.AddJsonBody(new
+            {
+                username = Login.uName,
+                password = Login.password
+            });
             PossibleErrors(request);
+            RestResponse response = Login.Client.Execute(request);
             List<PurchaseHistory> purchaseHistories = JsonSerializer.Deserialize<List<PurchaseHistory>>(response.Content);
             dgv_PurchaseHistory.DataSource = purchaseHistories;
             dgv_PurchaseHistory.Columns[0].Visible = false;
@@ -150,23 +155,30 @@ namespace Szop_EA
         private void Php_CheckedChanged(object sender, EventArgs e)
         {
             RestRequest request = null;
-            if (php.Checked)
+            try
             {
-                request = new RestRequest("php", Method.Get);
-                RestResponse response = Login.Client.Execute(request);
-                PossibleErrors(request);
-                List<UtalasAdatok> adatok = JsonSerializer.Deserialize<List<UtalasAdatok>>(response.Content);
-                dgv_purchase.DataSource = adatok;
+                if (php.Checked)
+                {
+                    request = new RestRequest($"php/{Login.uName}&{Login.password}", Method.Get);
+                    RestResponse response = Login.Client.Execute(request);
+                    PossibleErrors(request);
+                    List<TransferData> adatok = JsonSerializer.Deserialize<List<TransferData>>(response.Content);
+                    dgv_purchase.DataSource = adatok;
+                }
+                else
+                {
+                    request = new RestRequest("inventory", Method.Get);
+                    RestResponse response = Login.Client.Execute(request);
+                    PossibleErrors(request);
+                    List<GoodsData> aruk = JsonSerializer.Deserialize<List<GoodsData>>(response.Content);
+                    dgv_purchase.DataSource = aruk;
+                }
+                dgv_inventory.Columns[0].Visible = false;
             }
-            else
+            catch(Exception ex)
             {
-                request = new RestRequest("inventory", Method.Get);
-                RestResponse response = Login.Client.Execute(request);
-                PossibleErrors(request);
-                List<GoodsData> aruk = JsonSerializer.Deserialize<List<GoodsData>>(response.Content);
-                dgv_purchase.DataSource = aruk;
+                MessageBox.Show(ex.Message);
             }
-            dgv_inventory.Columns[0].Visible = false;
         }
 
         private void btn_goodsDelete_Click(object sender, EventArgs e)

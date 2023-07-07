@@ -2,34 +2,26 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var mysql = require('mysql');
+var axios = require('axios');
 var loginCheck = require('./my_modules/login');
 var registerCheck = require('./my_modules/register');
 var inventory = require('./my_modules/inventory');
 var purchase = require('./my_modules/purchase');
-//var jsonCodes = require('./my_modules/jsonCodes');
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root', 
     password : '', 
     database : 'shop'
 });
-connection.connect(function(err){
-  try{
-    if(err) throw err;
-  }
-  catch{
-    console.log(err);
-  }
-});
+
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc =  require('./openapi');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api_docs',swaggerUI.serve,swaggerUI.setup(swaggerDoc));
-//json error codes
 const goodsInsertFail = {"status":0,"msg":"Inserting good(s) was/were unsuccessful"}
 const goodsInsertSuccess = {"status":1,"msg":"Inserting good(s) was/were successful"}
-const incomplete = {"status":2,"msg":"Incomplete parameters"}
+const incomplete = {"status":0,"msg":"Incomplete parameters"}
 const notAdmin = {"status":2,"msg":"You don't have the required privilage!"}
 const loginFail = {'status':0,'msg':"The attempt to login was unsuccessful"}
 const loginSuccess = {'status':1,'msg':"The attempt to login was successful"}
@@ -60,31 +52,47 @@ function isAdmin(uname){
     return success(false);
   }));
 }
-let userId = null;
+app.get('/',async function(req,res){
+  connection.ping(function(err){
+    try{
+      if(err) {
+        console.log("Error with DB conn");
+        throw err;
+      }
+      else{
+        console.log("DB conn ok");
+        res.json({"status":1,"msg":"DB conn ok"});
+      }
+    }
+    catch{
+      res.json({"status":500,"msg":"Connection to database failed"});
+      console.log(err);
+    }
+  });
+});
 app.get('/login/:username&:password',async function (req,res){
-  var name = req.params.username;
-  var passwd = req.params.password;
+  let name = req.params.username;
+  let passwd = req.params.password;
   let tryLog = await loginCheck.login(name,passwd);
-  if(tryLog){
-    userId = await loginCheck.getId(name,passwd);
-    res.json(loginSuccess);
-  }
-  else{
+  if(!tryLog){
     res.json(loginFail);
+    return;
   }
+    res.json(loginSuccess);
 });
 app.post('/register',async function(req,res){
     let values = req.body;
-    let isFilled = await registerCheck.areInputsfilled(values.teljesNev,values.username,values.password,values.email,values.role);
-    if(isFilled){
-        let isReg = await registerCheck.register(values.teljesNev,values.username,values.password,values.email,values.role);
-        if(isReg){
-          res.json(registerSuccess);
-        }
+    let isFilled = await registerCheck.areInputsfilled(values.fullName,values.username,values.password,values.email,values.role);
+    if(!isFilled){
+      res.json(incomplete);
+      return;
     }
-    else{
-        res.json(registerFail);
+    let isReg = await registerCheck.register(values.fullName,values.username,values.password,values.email,values.role);
+    if(!isReg){
+      res.json(registerFail);
+      return;
     }
+    res.json(registerSuccess);
 });
 app.get('/inventory',function(req,res){
     connection.query("SELECT * FROM inventory",function(error,results,fields){
@@ -103,7 +111,6 @@ app.post('/inventory',async function(req,res){
     return;
   }
   let isInsertToInventory = await inventory.insertGoods(values.productName,values.price,values.quantity);
-  console.log(isInsertToInventory);
   if(!isInsertToInventory){
     res.json(goodsInsertFail);
     return;
@@ -143,11 +150,18 @@ app.delete('/inventory/:id',async function(req,res){
   }
   res.json(goodsDeleteSuccess);
 });
-app.get('/purchase',async function(req,res){
-  connection.query("SELECT purchasehistory.id, u.fullName as 'Buyer', i.goods as 'ProductName', purchasehistory.quantity FROM purchasehistory INNER JOIN user u ON purchasehistory.buyerID = u.id INNER JOIN inventory i ON purchasehistory.productID = i.id WHERE buyerID = ?",[userId],function(error,results,fields){
+app.post('/purchase',async function(req,res){
+  let values = req.body;
+  let getId = await loginCheck.getId(values.username, values.password);
+  if(!getId){
+    res.json(notLoggedIn);
+    return;
+  }
+  connection.query("SELECT purchasehistory.id, u.fullName as 'Buyer', i.goods as 'ProductName', purchasehistory.quantity FROM purchasehistory INNER JOIN user u ON purchasehistory.buyerID = u.id INNER JOIN inventory i ON purchasehistory.productID = i.id WHERE buyerID = ?",[getId],function(error,results,fields){
     if(error) throw error;
     res.json(results);
-  })
+  });
+
 })
 app.put('/purchase',async function(req,res){
   let values = req.body;
@@ -155,8 +169,8 @@ app.put('/purchase',async function(req,res){
     res.json(incomplete);
     return;
   }
-  let islogged = await loginCheck.login(values.username,values.password);
-  if(!islogged){
+  let userId = await loginCheck.getId(values.username,values.password);
+  if(!userId){
     res.json(notLoggedIn);
     return;
   }
@@ -176,15 +190,12 @@ app.put('/purchase',async function(req,res){
   }
   res.json(purchaseSuccess);
 });
-app.get('/php',async function(req,res){
-  let phpConn =mysql.createConnection({
-    host: 'localhost',
-    user: 'root', 
-    password: '', 
-    database: 'bank'
+app.get('/php/:username&:passwd',async function(req,res){
+  axios.get(`http://localhost/bank/BankUtalasok/?username=${req.params.username}&passwd=${req.params.passwd}`)
+  .then(response => {
+    res.json(response.data);
+  })
+  .catch(error => {
+    console.error(error); 
   });
-  phpConn.query("SELECT * FROM utalas",function(error,results,fields){
-    if(error) throw error;
-    res.json(results);
-})
 });

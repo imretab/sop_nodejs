@@ -44,29 +44,21 @@ namespace Szop_EA
         {
             try
             {
+                if (!DBconn.Check(Client)) { 
+                    return; 
+                } 
                 string ROUTE = $"login/{name}&{passwd}";
                 RestRequest request = new RestRequest(ROUTE, Method.Get);
                 request.RequestFormat = DataFormat.Json;
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passwd))
-                {
-                    MessageBox.Show("Username and password field shouldn't be empty", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
                     RestResponse response = Client.Execute(request);
-                    if (response.StatusCode == 0)
-                    {
-                        MessageBox.Show("Connecting to server failed!");
-                        return;
-                    }
-                    else if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    {
-                        MessageBox.Show($"ERROR: {response.ErrorMessage}");
-                        return;
-                    }
                     uName = name;
                     password = passwd;
                     Response res = Client.Deserialize<Response>(response).Data;
+                    if(res is null)
+                    {
+                        MessageBox.Show("Input fields are empty","Error",MessageBoxButtons.OK,MessageBoxIcon.Hand);
+                        return;
+                    }
                     if (res.Status == 1)
                     {
                         MessageBox.Show(res.Msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -75,15 +67,11 @@ namespace Szop_EA
                         b.ShowDialog();
                         this.Close();
                     }
-                    else
-                    {
-                        MessageBox.Show(res.Msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                    MessageBox.Show(res.Msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Hand);
             }
 
         }

@@ -33,17 +33,17 @@ namespace Szop_EA
             return num_price.Value <= 0 ||
                 num_quantity.Value <= 0;
         }
-        public void FeltoltAru(string goodsName, int price, int quantity)
+        public void ModifyGoods(string goodsName, int price, int quantity)
         {
             try
             {
-                int arC, mennyisegC;
+                int priceC, quantityC;
                 if (areAllEmpty())
                 {
                     MessageBox.Show("All the fields should be filled!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                else if (!(int.TryParse(price.ToString(), out arC)) && !(int.TryParse(quantity.ToString(), out mennyisegC)))
+                else if (!(int.TryParse(price.ToString(), out priceC)) && !(int.TryParse(quantity.ToString(), out quantityC)))
                 {
                     MessageBox.Show("Quantity should be number type!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -55,8 +55,7 @@ namespace Szop_EA
                 }
                 else
                 {
-                    string route = "inventory";
-                    RestRequest request = new RestRequest(route, Method.Put);
+                    RestRequest request = new RestRequest("inventory", Method.Put);
                     request.RequestFormat = DataFormat.Json;
                     request.AddJsonBody(
                         new
@@ -90,18 +89,17 @@ namespace Szop_EA
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "KONVERZIÓ HIBA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Conversion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void Btn_modosit_Click(object sender, EventArgs e)
-        {
-            FeltoltAru(tb_product.Text, (int)num_price.Value, (int)num_quantity.Value);
-        }
-
         private void Btn_back_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btn_modify_Click(object sender, EventArgs e)
+        {
+            ModifyGoods(tb_product.Text, (int)num_price.Value, (int)num_quantity.Value);
         }
     }
 }

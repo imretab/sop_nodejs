@@ -28,7 +28,7 @@ namespace Szop_EA
             return num_price.Value <= 0||
                 num_quantity.Value <=0;
         }
-        public void FeltoltAru(string goodsName, int price, int quantity)
+        public void InsertGoods(string goodsName, int price, int quantity)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace Szop_EA
 
         private void Btn_feltolt_Click(object sender, EventArgs e)
         {
-            FeltoltAru(tb_product.Text, (int)num_price.Value,(int)num_quantity.Value);
+            InsertGoods(tb_product.Text, (int)num_price.Value,(int)num_quantity.Value);
         }
 
         private void Btn_back_Click(object sender, EventArgs e)

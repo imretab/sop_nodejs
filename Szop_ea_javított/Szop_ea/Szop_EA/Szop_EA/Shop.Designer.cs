@@ -40,11 +40,11 @@
             this.btn_goodsDelete = new System.Windows.Forms.Button();
             this.btn_modify = new System.Windows.Forms.Button();
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
+            this.purchasehistory = new System.Windows.Forms.TabPage();
+            this.loggedUser = new System.Windows.Forms.Label();
+            this.dgv_PurchaseHistory = new System.Windows.Forms.DataGridView();
             this.logged = new System.Windows.Forms.Label();
             this.btn_logout = new System.Windows.Forms.Button();
-            this.purchasehistory = new System.Windows.Forms.TabPage();
-            this.dgv_PurchaseHistory = new System.Windows.Forms.DataGridView();
-            this.loggedUser = new System.Windows.Forms.Label();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.purchase.SuspendLayout();
@@ -203,6 +203,42 @@
             this.dgv_inventory.Size = new System.Drawing.Size(562, 482);
             this.dgv_inventory.TabIndex = 0;
             // 
+            // purchasehistory
+            // 
+            this.purchasehistory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.purchasehistory.Controls.Add(this.loggedUser);
+            this.purchasehistory.Controls.Add(this.dgv_PurchaseHistory);
+            this.purchasehistory.Location = new System.Drawing.Point(4, 22);
+            this.purchasehistory.Name = "purchasehistory";
+            this.purchasehistory.Size = new System.Drawing.Size(899, 482);
+            this.purchasehistory.TabIndex = 2;
+            this.purchasehistory.Text = "PurchaseHistory";
+            // 
+            // loggedUser
+            // 
+            this.loggedUser.AutoSize = true;
+            this.loggedUser.Font = new System.Drawing.Font("Comic Sans MS", 11.25F);
+            this.loggedUser.ForeColor = System.Drawing.Color.White;
+            this.loggedUser.Location = new System.Drawing.Point(3, 9);
+            this.loggedUser.Name = "loggedUser";
+            this.loggedUser.Size = new System.Drawing.Size(51, 20);
+            this.loggedUser.TabIndex = 1;
+            this.loggedUser.Text = "label2";
+            // 
+            // dgv_PurchaseHistory
+            // 
+            this.dgv_PurchaseHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_PurchaseHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dgv_PurchaseHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_PurchaseHistory.Location = new System.Drawing.Point(0, 35);
+            this.dgv_PurchaseHistory.MultiSelect = false;
+            this.dgv_PurchaseHistory.Name = "dgv_PurchaseHistory";
+            this.dgv_PurchaseHistory.ReadOnly = true;
+            this.dgv_PurchaseHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv_PurchaseHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_PurchaseHistory.Size = new System.Drawing.Size(899, 444);
+            this.dgv_PurchaseHistory.TabIndex = 0;
+            // 
             // logged
             // 
             this.logged.AutoSize = true;
@@ -225,42 +261,6 @@
             this.btn_logout.UseVisualStyleBackColor = true;
             this.btn_logout.Click += new System.EventHandler(this.Btn_logout_Click);
             // 
-            // purchasehistory
-            // 
-            this.purchasehistory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.purchasehistory.Controls.Add(this.loggedUser);
-            this.purchasehistory.Controls.Add(this.dgv_PurchaseHistory);
-            this.purchasehistory.Location = new System.Drawing.Point(4, 22);
-            this.purchasehistory.Name = "purchasehistory";
-            this.purchasehistory.Size = new System.Drawing.Size(899, 482);
-            this.purchasehistory.TabIndex = 2;
-            this.purchasehistory.Text = "PurchaseHistory";
-            // 
-            // dgv_PurchaseHistory
-            // 
-            this.dgv_PurchaseHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_PurchaseHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.dgv_PurchaseHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_PurchaseHistory.Location = new System.Drawing.Point(0, 35);
-            this.dgv_PurchaseHistory.MultiSelect = false;
-            this.dgv_PurchaseHistory.Name = "dgv_PurchaseHistory";
-            this.dgv_PurchaseHistory.ReadOnly = true;
-            this.dgv_PurchaseHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgv_PurchaseHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_PurchaseHistory.Size = new System.Drawing.Size(899, 444);
-            this.dgv_PurchaseHistory.TabIndex = 0;
-            // 
-            // loggedUser
-            // 
-            this.loggedUser.AutoSize = true;
-            this.loggedUser.Font = new System.Drawing.Font("Comic Sans MS", 11.25F);
-            this.loggedUser.ForeColor = System.Drawing.Color.White;
-            this.loggedUser.Location = new System.Drawing.Point(3, 9);
-            this.loggedUser.Name = "loggedUser";
-            this.loggedUser.Size = new System.Drawing.Size(51, 20);
-            this.loggedUser.TabIndex = 1;
-            this.loggedUser.Text = "label2";
-            // 
             // btn_refresh
             // 
             this.btn_refresh.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -282,8 +282,10 @@
             this.Controls.Add(this.btn_logout);
             this.Controls.Add(this.logged);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Shop";
-            this.Text = "Bolt";
+            this.Text = "Shop";
             this.tabControl1.ResumeLayout(false);
             this.purchase.ResumeLayout(false);
             this.purchase.PerformLayout();

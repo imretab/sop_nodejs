@@ -47,7 +47,7 @@ namespace Szop_EA
                 request.AddJsonBody(
                     new
                     {
-                        TeljesNev = fullName,
+                        fullName = fullName,
                         username = uname,
                         password = pwd,
                         email = Email,

@@ -96,6 +96,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBconn.cs" />
+    <Compile Include="DBconnectionException.cs" />
     <Compile Include="GoodsData.cs" />
     <Compile Include="GoodsInsert.cs">
       <SubType>Form</SubType>

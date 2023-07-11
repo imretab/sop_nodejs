@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Szop_EA.Command;
 
 namespace Szop_EA
 {
@@ -24,81 +25,20 @@ namespace Szop_EA
         }
         private void UpdatePurchaseList()
         {
-            RestRequest request = new RestRequest("inventory", Method.Get);
-            RestResponse response = Login.Client.Execute(request);
-            PossibleErrors(request);
-            List<GoodsData> goods = JsonSerializer.Deserialize<List<GoodsData>>(response.Content);
-            dgv_purchase.DataSource = goods;
-            dgv_inventory.DataSource = goods;
-            dgv_inventory.Columns[0].Visible = false;
-            dgv_purchase.Columns[0].Visible = false;
+            GetInventoryItemsCommand getInventoryItemsCommand = new GetInventoryItemsCommand(dgv_purchase,dgv_inventory);
+            getInventoryItemsCommand.execute();
         }
         private void UpdatePurchaseHistoryList()
         {
-            RestRequest request = new RestRequest("purchase", Method.Post);
-            request.AddJsonBody(new
-            {
-                username = Login.uName,
-                password = Login.password
-            });
-            PossibleErrors(request);
-            RestResponse response = Login.Client.Execute(request);
-            List<PurchaseHistory> purchaseHistories = JsonSerializer.Deserialize<List<PurchaseHistory>>(response.Content);
-            dgv_PurchaseHistory.DataSource = purchaseHistories;
-            dgv_PurchaseHistory.Columns[0].Visible = false;
+            GetPurchaseHistoryCommand getPurchaseHistoryCommand = new GetPurchaseHistoryCommand(dgv_PurchaseHistory);
+            getPurchaseHistoryCommand.execute();
         }
-        private void PossibleErrors(RestRequest request)
-        {
-            RestResponse response = Login.Client.Execute(request);
-            if (response.StatusCode == 0)
-            {
-                MessageBox.Show("Connecting to server failed!");
-                return;
-            }
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                MessageBox.Show($"ERROR: {response.ErrorMessage}");
-                return;
-            }
-        }
-        private void GetResponse(RestRequest request)
-        {
-            RestResponse response = Login.Client.Execute(request);
-            if (response.StatusCode == 0)
-            {
-                MessageBox.Show("Connecting to server failed!");
-                return;
-            }
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                MessageBox.Show($"ERROR: {response.ErrorMessage}");
-                return;
-            }
-            Response res = Login.Client.Deserialize<Response>(response).Data;
-            if (res.Status == 1)
-            {
-                MessageBox.Show(res.Msg, "Success");
-            }
-            else
-            {
-                MessageBox.Show(res.Msg, "Error");
-            }
-        }
-
         private void Delete()
         {
             try
             {
-                GoodsData adatok = dgv_inventory.CurrentRow.DataBoundItem as GoodsData;
-                int id = adatok.ID;
-                RestRequest request = new RestRequest($"inventory/{id}", Method.Delete);
-                if(adatok == null) { throw new Exception(); }
-                request.AddJsonBody(new
-                {
-                    username = Login.uName,
-                    password = Login.password,
-                });
-                GetResponse(request);
+                DeleteSelectedItemCommand deleteSelectedItemCommand = new DeleteSelectedItemCommand(dgv_inventory);
+                deleteSelectedItemCommand.execute();
             }
             catch (Exception ex)
             {
@@ -109,27 +49,8 @@ namespace Szop_EA
         {
             try
             {
-                RestRequest request = new RestRequest("purchase", Method.Put);
-                GoodsData goods = dgv_purchase.CurrentRow.DataBoundItem as GoodsData;
-                if (goods == null) { throw new Exception(); }
-                if (num_amount.Value <= 0)
-                {
-                    MessageBox.Show("You can't buy items if the value of quantity is less or equals to 0", "ERROR");
-                    return;
-                }
-                if (num_amount.Value > goods.Quantity)
-                {
-                    MessageBox.Show("You can't buy more than what's in stock", "ERROR");
-                    return;
-                }
-                request.AddJsonBody(new
-                {
-                    username = Login.uName,
-                    password = Login.password,
-                    id = goods.ID,
-                    quantity = num_amount.Value
-                });
-                GetResponse(request);
+                PurchaseCommand purchaseCommand = new PurchaseCommand(dgv_purchase, num_amount);
+                purchaseCommand.execute();
             }
             catch (Exception ex)
             {
@@ -146,32 +67,19 @@ namespace Szop_EA
             l.ShowDialog();
             this.Close();
         }
-        private void Btn_vasarlas_Click(object sender, EventArgs e)
-        {
-            Purchase();
-            UpdatePurchaseList();
-        }
-
         private void Php_CheckedChanged(object sender, EventArgs e)
         {
-            RestRequest request = null;
             try
             {
                 if (php.Checked)
                 {
-                    request = new RestRequest($"php/{Login.uName}&{Login.password}", Method.Get);
-                    RestResponse response = Login.Client.Execute(request);
-                    PossibleErrors(request);
-                    List<TransferData> adatok = JsonSerializer.Deserialize<List<TransferData>>(response.Content);
-                    dgv_purchase.DataSource = adatok;
+                    GetTransferDataCommand getTransferDataCommand = new GetTransferDataCommand(dgv_purchase);
+                    getTransferDataCommand.execute();
                 }
                 else
                 {
-                    request = new RestRequest("inventory", Method.Get);
-                    RestResponse response = Login.Client.Execute(request);
-                    PossibleErrors(request);
-                    List<GoodsData> aruk = JsonSerializer.Deserialize<List<GoodsData>>(response.Content);
-                    dgv_purchase.DataSource = aruk;
+                    GetInventoryItemsCommand getInventoryItemsCommand = new GetInventoryItemsCommand(dgv_purchase, dgv_inventory);
+                    getInventoryItemsCommand.execute();
                 }
                 dgv_inventory.Columns[0].Visible = false;
             }
@@ -195,14 +103,14 @@ namespace Szop_EA
         {
             try
             {
-                GoodsData adatok = dgv_inventory.CurrentRow.DataBoundItem as GoodsData;
-                if (adatok == null)
+                GoodsData data = dgv_inventory.CurrentRow.DataBoundItem as GoodsData;
+                if (data == null)
                 {
                     throw new Exception();
                 }
                 else
                 {
-                    GoodsModify mod = new GoodsModify(adatok);
+                    GoodsModify mod = new GoodsModify(data);
                     mod.ShowDialog();
                     UpdatePurchaseList();
                 }

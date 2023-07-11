@@ -18,7 +18,7 @@ exports.areInputsfilled = async function areAllFilled(fullName,uname,pwd,email,r
   }
 exports.register = function register(fullName,uname,pwd,email,role){
       return new Promise((success,fail) => {
-      connection.query("INSERT INTO user (TeljesNev,username,passwd,email,role) VALUES (?,?,?,?,?)",[fullName,uname,sha512(pwd),email,role],function(error,results,fields){
+      connection.query("INSERT INTO user (fullName,username,passwd,email,role) VALUES (?,?,?,?,?)",[fullName,uname,sha512(pwd),email,role],function(error,results,fields){
       if(error){ 
         return fail(error);
       }

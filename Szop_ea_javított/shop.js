@@ -129,7 +129,7 @@ app.put('/inventory',async function(req,res){
     res.json(notAdmin);
     return;
   }
-  let isUpdate = await inventory.updateGoods(values.id,values.prodcutName,values.price,values.quantity);
+  let isUpdate = await inventory.updateGoods(values.id,values.productName,values.price,values.quantity);
   if(!isUpdate) {
     res.json(goodsUpdateFail);
     return;
@@ -157,7 +157,7 @@ app.post('/purchase',async function(req,res){
     res.json(notLoggedIn);
     return;
   }
-  connection.query("SELECT purchasehistory.id, u.fullName as 'Buyer', i.goods as 'ProductName', purchasehistory.quantity FROM purchasehistory INNER JOIN user u ON purchasehistory.buyerID = u.id INNER JOIN inventory i ON purchasehistory.productID = i.id WHERE buyerID = ?",[getId],function(error,results,fields){
+  connection.query("SELECT purchasehistory.id, u.username as 'Buyer', i.goods as 'ProductName', purchasehistory.quantity FROM purchasehistory INNER JOIN user u ON purchasehistory.buyerName = u.username INNER JOIN inventory i ON purchasehistory.productName = i.goods WHERE u.id = ?",[getId],function(error,results,fields){
     if(error) throw error;
     res.json(results);
   });
@@ -183,7 +183,7 @@ app.put('/purchase',async function(req,res){
   if(!isTorol){
     return;
   }
-  let isInsertToInventory = await purchase.insertToHistroy(userId,values.id,values.quantity);
+  let isInsertToInventory = await purchase.insertToHistory(values.username,values.productName,values.quantity);
   if(!isInsertToInventory){
     res.json(purchaseFail);
     return;

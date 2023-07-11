@@ -112,7 +112,7 @@
       <DependentUpon>GoodsModify.cs</DependentUpon>
     </Compile>
     <Compile Include="PurchaseHistory.cs" />
-    <Compile Include="UtalasAdatok.cs" />
+    <Compile Include="TransferData.cs" />
     <Compile Include="Shop.cs">
       <SubType>Form</SubType>
     </Compile>

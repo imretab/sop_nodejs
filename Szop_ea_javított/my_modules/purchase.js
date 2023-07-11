@@ -44,15 +44,15 @@ exports.purchase = function Purchase(id,quantity){
       });
     });
   }
-exports.insertToHistroy = function insertToHistroy(userId,prodID, quantity){
+exports.insertToHistory = function insertToHistroy(username,productName, quantity){
   return new Promise((success,fail)=>{
-    if(!userId || !prodID || !quantity){
+    if(!username || !productName || !quantity){
       return success(false);
     }
-    if(isNaN(userId) || isNaN(prodID) || isNaN(quantity)){
+    if(isNaN(quantity)){
       return success(false);
     }
-    connection.query("INSERT into purchasehistory(buyerID,productID,quantity) values(?,?,?)",[userId,prodID,quantity],async function (error,results){
+    connection.query("INSERT into purchasehistory(buyerName,productName,quantity) values(?,?,?)",[username,productName,quantity],async function (error,results){
       if(error) return fail(error);
       else{
         if(results.length != 0) return success(true);

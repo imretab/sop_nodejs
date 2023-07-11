@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Szop_EA.Command;
 
 namespace Szop_EA
 {
@@ -55,35 +56,8 @@ namespace Szop_EA
                 }
                 else
                 {
-                    RestRequest request = new RestRequest("inventory", Method.Put);
-                    request.RequestFormat = DataFormat.Json;
-                    request.AddJsonBody(
-                        new
-                        {
-                            username = Login.uName,
-                            password = Login.password,
-                            id = data.ID,
-                            productName = goodsName,
-                            price = price,
-                            quantity = quantity
-                        }
-                    );
-                    RestResponse response = Login.Client.Execute(request);
-                    if (response.StatusCode == 0)
-                    {
-                        MessageBox.Show("Connection to server failed!");
-                        return;
-                    }
-                    else if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    {
-                        MessageBox.Show($"ERROR: {response.ErrorMessage}");
-                        return;
-                    }
-                    Response res = Login.Client.Deserialize<Response>(response).Data;
-                    if (res.Status == 1)
-                        MessageBox.Show(res.Msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                        MessageBox.Show(res.Msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateGoodsCommand updateGoodsCommand = new UpdateGoodsCommand(data, goodsName, price, quantity);
+                    updateGoodsCommand.execute();
                     this.Close();
                 }
             }

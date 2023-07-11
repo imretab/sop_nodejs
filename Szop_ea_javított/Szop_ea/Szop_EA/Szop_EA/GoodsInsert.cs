@@ -64,14 +64,8 @@ namespace Szop_EA
                         }
                     );
                     RestResponse response = Login.Client.Execute(request);
-                    if (response.StatusCode == 0)
+                    if (!DBconn.Check(Login.Client))
                     {
-                        MessageBox.Show("Connection to server failed!");
-                        return;
-                    }
-                    else if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    {
-                        MessageBox.Show($"ERROR: {response.ErrorMessage}");
                         return;
                     }
                     Response res = Login.Client.Deserialize<Response>(response).Data;
